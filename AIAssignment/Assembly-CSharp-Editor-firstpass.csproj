@@ -53,10 +53,10 @@
   <ItemGroup>
      <Compile Include="Assets\Standard Assets\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
  <Reference Include="UnityEditor.StandardEvents">
- <HintPath>D:/Users/Mark Little/Documents/University Work/YEAR 3/AI programming/Assessment/AIAssignment/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+ <HintPath>D:/Users/Mark Little/Documents/University Work/YEAR 3/AI programming/Assessment/AIASESSMENT/AIAssignment/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
  </Reference>
  <Reference Include="Unity.PackageManagerUI.Editor">
- <HintPath>D:/Users/Mark Little/Documents/University Work/YEAR 3/AI programming/Assessment/AIAssignment/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+ <HintPath>D:/Users/Mark Little/Documents/University Work/YEAR 3/AI programming/Assessment/AIASESSMENT/AIAssignment/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>D:/Users/Mark Little/Documents/UnityHub/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

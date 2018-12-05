@@ -33,8 +33,12 @@ public class AIController : MonoBehaviour {
     {
         for(int i = 0; i < goals.Count; i++)
         {
-            IsValid(goals[i]);
+            if(IsValid(goals[i]))
+            {
+                Debug.Log(goals[i].Key.goalName);
+            }
         }
+        
 
     }
      
@@ -61,9 +65,46 @@ public class AIController : MonoBehaviour {
 
     bool IsValid(KeyValuePair<AIGoals.Goal, bool> goal)
     {
-        
+        int AmountOfPreConditionsMet = 0;
+
+        for (int j = 0; j < states.Count; j++) //Go through states
+        {
+            if (goal.Key.goalName == states[j].Key) //if the goal name is the same as the state
+            {
+                if (goal.Value == states[j].Value) //Check if the goal has been met, if it has then the goal is no longer valid to do this goal since it is already complete 
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                for (int a = 0; a < goal.Key.preconditions.Count; a++) //else Check preconditions so we can compare them to the goals preconditions 
+                {
+                    if (goal.Key.preconditions[a].Key == states[j].Key) //Is the precondition matching with the state that we are one (Are they the same string)
+                    {
+                        if (goal.Key.preconditions[a].Value == states[j].Value) //If so, is the preconditions value (the boolean) the same
+                        {
+                            AmountOfPreConditionsMet += 1; //If so, add it to the counter 
+                        }
+                    }
+
+                }
+
+                if (AmountOfPreConditionsMet >= goal.Key.amountOfPreConditionsNeeded) //If we have met enough of the preconditions then we are good to go with the goal. 
+                {
+                    return true;
+                }
+
+            }
+            
+     
+
+        }
         return false;
     }
+
+
+
 }
 
 

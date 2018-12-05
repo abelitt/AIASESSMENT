@@ -8,7 +8,7 @@ public class AIGoals: MonoBehaviour {
     {
         public string goalName;
         public List<KeyValuePair<string, bool>> preconditions;
-        public int amountOfPreConditions;
+        public int amountOfPreConditionsNeeded;
         public List<KeyValuePair<string, bool>> effects;
     };
 
@@ -38,6 +38,7 @@ public class AIGoals: MonoBehaviour {
         enemyFlagInBase.preconditions = new List<KeyValuePair<string, bool>>();
         enemyFlagInBase.effects = new List<KeyValuePair<string, bool>>();
         enemyFlagInBase.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentHaveEnemyFlag", true));
+        enemyFlagInBase.amountOfPreConditionsNeeded = 1;
         enemyFlagInBase.effects.Add(new KeyValuePair<string, bool>("EnemyFlagInBase", true));
 
 
@@ -45,7 +46,8 @@ public class AIGoals: MonoBehaviour {
         allyFlagInBase.goalName = "AllyFlagInBase";
         allyFlagInBase.preconditions = new List<KeyValuePair<string, bool>>();
         allyFlagInBase.effects = new List<KeyValuePair<string, bool>>();
-        enemyFlagInBase.preconditions.Add(new KeyValuePair<string, bool>("AllyFlagInBase", false));
+        enemyFlagInBase.preconditions.Add(new KeyValuePair<string, bool>("AllyFlagInBase", true));
+        enemyFlagInBase.amountOfPreConditionsNeeded = 1;
         enemyFlagInBase.effects.Add(new KeyValuePair<string, bool>("AllyFlagInBase", true));
 
         Goal anyAgentHaveFlag = new Goal();
@@ -53,6 +55,7 @@ public class AIGoals: MonoBehaviour {
         anyAgentHaveFlag.preconditions = new List<KeyValuePair<string, bool>>();
         anyAgentHaveFlag.effects = new List<KeyValuePair<string, bool>>();
         anyAgentHaveFlag.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlEnemyBase", true));
+        anyAgentHaveFlag.amountOfPreConditionsNeeded = 1;
         anyAgentHaveFlag.effects.Add(new KeyValuePair<string, bool>("AnyAgentHaveFlag", true));
 
         Goal anyAgentControlEnemyBase = new Goal();
@@ -63,7 +66,7 @@ public class AIGoals: MonoBehaviour {
         anyAgentControlEnemyBase.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlMiddle", true));
         anyAgentControlEnemyBase.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlRight", true));
         anyAgentControlEnemyBase.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentPowerUp", true));
-        anyAgentControlEnemyBase.amountOfPreConditions = 2;
+        anyAgentControlEnemyBase.amountOfPreConditionsNeeded = 2;
         anyAgentControlEnemyBase.effects.Add(new KeyValuePair<string, bool>("AnyAgentHaveFlag", true));
 
         Goal anyAgentControlLeft = new Goal();
@@ -71,6 +74,8 @@ public class AIGoals: MonoBehaviour {
         anyAgentControlLeft.effects = new List<KeyValuePair<string, bool>>();
         anyAgentControlLeft.goalName = "AnyAgentControlLeft";
         anyAgentControlLeft.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlLeftPlanned", false));
+        anyAgentControlLeft.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlLeft", false));
+        anyAgentControlLeft.amountOfPreConditionsNeeded = 2;
         anyAgentControlLeft.effects.Add(new KeyValuePair<string, bool>("AnyAgentControlLeft", true));
 
         Goal anyAgentControlRight = new Goal();
@@ -78,6 +83,8 @@ public class AIGoals: MonoBehaviour {
         anyAgentControlRight.effects = new List<KeyValuePair<string, bool>>();
         anyAgentControlRight.goalName = "AnyAgentControlRight";
         anyAgentControlRight.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlRightPlanned", false));
+        anyAgentControlRight.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlRight", false));
+        anyAgentControlRight.amountOfPreConditionsNeeded = 2;
         anyAgentControlRight.effects.Add(new KeyValuePair<string, bool>("AnyAgentControlRight", true));
 
         Goal anyAgentControlMiddle = new Goal();
@@ -85,6 +92,8 @@ public class AIGoals: MonoBehaviour {
         anyAgentControlMiddle.effects = new List<KeyValuePair<string, bool>>();
         anyAgentControlMiddle.goalName = "AnyAgentControlMiddle";
         anyAgentControlMiddle.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlMiddlePlanned", false));
+        anyAgentControlMiddle.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlMiddle", false));
+        anyAgentControlMiddle.amountOfPreConditionsNeeded = 2;
         anyAgentControlMiddle.effects.Add(new KeyValuePair<string, bool>("AnyAgentControlMiddle", true));
 
         Goal anyAgentControlAllyBase = new Goal();
@@ -95,7 +104,7 @@ public class AIGoals: MonoBehaviour {
         anyAgentControlAllyBase.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlLeft", true));
         anyAgentControlAllyBase.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlMiddle", true));
         anyAgentControlAllyBase.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlRight", true));
-        anyAgentControlAllyBase.amountOfPreConditions = 2;
+        anyAgentControlAllyBase.amountOfPreConditionsNeeded = 2;
         anyAgentControlAllyBase.effects.Add(new KeyValuePair<string, bool>("AnyAgentControlAllyBase", true));
 
         goals = new List<KeyValuePair<Goal, bool>>();
