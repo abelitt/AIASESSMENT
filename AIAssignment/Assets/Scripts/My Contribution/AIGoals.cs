@@ -12,18 +12,10 @@ public class AIGoals: MonoBehaviour {
         public List<KeyValuePair<string, bool>> effects;
     };
 
-    //public HashSet<KeyValuePair<string, bool>> FOOGOALS = new HashSet<KeyValuePair<string, bool>>();
     public List<KeyValuePair<Goal, bool>> goals; 
 	void Start () {
 
         CreateGoals();
-
-
-
-
-        //FOOGOALS.Add(new KeyValuePair<string, bool>("DoesEnemyHaveFlag", false));   
-        //FOOGOALS.Add(new KeyValuePair<string, bool>("AnyAgentPowerUp", true));
-        //FOOGOALS.Add(new KeyValuePair<string, bool>("AnyAgentHealthLow", false)); 
     }
 	
 	// Update is called once per frame
@@ -46,9 +38,9 @@ public class AIGoals: MonoBehaviour {
         allyFlagInBase.goalName = "AllyFlagInBase";
         allyFlagInBase.preconditions = new List<KeyValuePair<string, bool>>();
         allyFlagInBase.effects = new List<KeyValuePair<string, bool>>();
-        enemyFlagInBase.preconditions.Add(new KeyValuePair<string, bool>("AllyFlagInBase", true));
-        enemyFlagInBase.amountOfPreConditionsNeeded = 1;
-        enemyFlagInBase.effects.Add(new KeyValuePair<string, bool>("AllyFlagInBase", true));
+        allyFlagInBase.preconditions.Add(new KeyValuePair<string, bool>("AllyFlagInBase", false));
+        allyFlagInBase.amountOfPreConditionsNeeded = 1;
+        allyFlagInBase.effects.Add(new KeyValuePair<string, bool>("AllyFlagInBase", true));
 
         Goal anyAgentHaveFlag = new Goal();
         anyAgentHaveFlag.goalName = "AnyAgentHaveFlag";
@@ -120,3 +112,8 @@ public class AIGoals: MonoBehaviour {
 
     }
 }
+
+
+//FOOGOALS.Add(new KeyValuePair<string, bool>("DoesEnemyHaveFlag", false));   
+//FOOGOALS.Add(new KeyValuePair<string, bool>("AnyAgentPowerUp", true));
+//FOOGOALS.Add(new KeyValuePair<string, bool>("AnyAgentHealthLow", false)); 
