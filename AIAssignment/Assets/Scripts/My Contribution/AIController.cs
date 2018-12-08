@@ -14,11 +14,10 @@ public class AIController : MonoBehaviour {
     public List<KeyValuePair<AIGoals.Goal, bool>> goals;
     public List<KeyValuePair<string, bool>> states;
 
-    public List<AIAction> actions = new List<AIAction>();
-
+    public List<List<AIAction>> plan = new List<List<AIAction>>();
     private int allMembersBusy = -1000;
     private int chosenTeamMember = 0;
-
+    
     // Use this for initialization
     void Start () {
         
@@ -29,27 +28,38 @@ public class AIController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if(teamMembers == null) //Aka, if we haven't found the game objects yet, since we can't find it through the start function.
+        if(teamMembers.Count < 3) //Aka, if we haven't found the game objects yet, since we can't find it through the start function.
         {
             FindGameObject();
-            AddActions();
         }
 
         for(int i = 0; i < goals.Count; i++) //Go Through the Goals
         {
-            if (IsValid(goals[i]))
+            if (IsValid(goals[i])) //Check if the Goal is worth going for 
             {
-                chosenTeamMember = ChooseTeamMember();
-                if(chosenTeamMember != allMembersBusy)
+                chosenTeamMember = ChooseTeamMember(); //choose a team memeber
+                if (chosenTeamMember != allMembersBusy) //If there isn't a team member that isn't busy
                 {
-                    //Make a plan to make AI "chosenTeamMember" achive goals[i]
-                    List<AIAction> foo = new List<AIAction>(GetComponent<AIPlanner>().GeneratePlan(teamMembers[0], goals[i]));
-                    foo[0].PlayAction(teamMembers[0]);
+                    teamMembers[chosenTeamMember].GetComponent<AI>().aiBusy = true; //Set the team member to busy
+                    plan.Add(new List<AIAction>(GetComponent<AIPlanner>().GeneratePlan(teamMembers[chosenTeamMember], goals[i]))); //Generate a plan for the AI to do 
                 }
-                else
+                else //If all team members are currently busy 
                 {
+                    //Check all the current actions in the plan
+                    //if the action is finished, remove action from the plan and move to next action
+                    //change state to action effects
+                    //if the plan is now empty, the AI is no longer busy
                     //All teamMembers busy, make a default 
                 }
+
+                if(plan.Count > 0) //If there is currently a plan
+                {
+                    for (int k = 0; k < plan.Count; k++) //go through all the plans
+                    {
+                        plan[k][0].PlayAction(); //Play the first action of each plan. Once this action is complete it will be removed so they can play the next plan
+                    }
+                }
+              
             }
         } 
 
@@ -72,17 +82,6 @@ public class AIController : MonoBehaviour {
 
             }
         }
-    }
-
-    void AddActions()
-    {
-        actions.Add(new MoveToAllyBase());
-        actions.Add(new MoveToEnemyBase());
-        actions.Add(new MoveToLeft());
-        actions.Add(new MoveToRight());
-        actions.Add(new MoveToMiddle());
-        actions.Add(new HaveEnemyFlag());
-
     }
 
     int ChooseTeamMember()

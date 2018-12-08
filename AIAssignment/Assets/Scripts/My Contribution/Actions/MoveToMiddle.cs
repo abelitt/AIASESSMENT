@@ -20,7 +20,7 @@ public class MoveToMiddle : AIAction
         action.effects.Add(new KeyValuePair<string, bool>("AnyAgentControlMiddle", true));
     }
 
-    public override void PlayAction(GameObject agent)
+    public override void PlayAction()
     {
         if(agent.tag == "Blue Team")
         {
@@ -39,8 +39,15 @@ public class MoveToMiddle : AIAction
         return true;
     }
 
-    public override bool isDone(GameObject agent)
+    public override bool isDone()
     {
+        if(agent.tag == "Blue Team")
+        {
+            if(agent.transform.position.x == blueMiddle.x && agent.transform.position.z == blueMiddle.z)
+            {
+                return true;
+            }
+        }
         return false;
     }
 }

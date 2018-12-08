@@ -18,7 +18,7 @@ public class MoveToLeft : AIAction {
         action.effects.Add(new KeyValuePair<string, bool>("AnyAgentControlLeft", true));
     }
 
-    public override void PlayAction(GameObject agent)
+    public override void PlayAction()
     {
         agent.GetComponent<AgentActions>().MoveTo(GameObject.Find("PowerupSpawner"));
 
@@ -30,7 +30,7 @@ public class MoveToLeft : AIAction {
         return true;
     }
 
-    public override bool isDone(GameObject agent)
+    public override bool isDone()
     {
         
         if (GameObject.Find("PowerupSpawner").transform.position.x == agent.transform.position.x && GameObject.Find("PowerupSpawner").transform.position.z == agent.transform.position.z)

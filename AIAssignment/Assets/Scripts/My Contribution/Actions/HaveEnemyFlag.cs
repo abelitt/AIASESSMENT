@@ -21,7 +21,7 @@ public class HaveEnemyFlag : AIAction
          
     }
 
-    public override void PlayAction(GameObject agent)
+    public override void PlayAction()
     {
         enemyTeam = WhichTeam(agent);
         GameObject gameObjectToPickUp = agent.GetComponent<Sensing>().GetObjectsInViewByTag("Flag")[0];
@@ -44,7 +44,7 @@ public class HaveEnemyFlag : AIAction
         return true;
     }
 
-    public override bool isDone(GameObject agent)
+    public override bool isDone()
     {
         enemyTeam = WhichTeam(agent);
 

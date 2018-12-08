@@ -28,7 +28,7 @@ public class AIPlanner : MonoBehaviour {
 
     public List<AIAction> GeneratePlan(GameObject agent, KeyValuePair<AIGoals.Goal, bool> goal)
     {
-        List<KeyValuePair<string, bool>> goalPreconditions = goal.Key.preconditions;
+        List<KeyValuePair<string, bool>> goalPreconditions = new List<KeyValuePair<string, bool>>(goal.Key.preconditions);
 
         List<AIAction> actionsToConsider = new List<AIAction>();
 
@@ -36,7 +36,8 @@ public class AIPlanner : MonoBehaviour {
 
         for(int i = 0; i < actions.Count; i++) //Go Through all Actions
         {
-            int amountOfPreConidtionsNeeded = 0;
+            Debug.Log(goal.Key.goalName);
+            int amountOfPreConidtionsComplete = 0;
             for (int k = 0; k < goalPreconditions.Count; k++) // go through the goals preconditions
             {
                 for(int p = 0; p < actions[i].action.preconditions.Count; p++) //check the actions preconditions
@@ -45,11 +46,12 @@ public class AIPlanner : MonoBehaviour {
                     {
                         if(actions[i].action.preconditions[p].Value == goalPreconditions[k].Value)
                         {
-                            amountOfPreConidtionsNeeded += 1;
+                            amountOfPreConidtionsComplete += 1;
                         }  
                     }
-                    if (actions[i].action.amountOfPreConditionsNeeded == goal.Key.amountOfPreConditionsNeeded)
+                    if (amountOfPreConidtionsComplete == goal.Key.amountOfPreConditionsNeeded)
                     {
+                        actions[i].WhichAgent(agent);
                         actionsToConsider.Add(actions[i]);
                         return actionsToConsider;
                     }

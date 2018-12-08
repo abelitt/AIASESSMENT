@@ -19,7 +19,7 @@ public class MoveToAllyBase : AIAction
         action.effects.Add(new KeyValuePair<string, bool>("AnyAgentControlAllyBase", true));
     }
 
-    public override void PlayAction(GameObject agent)
+    public override void PlayAction()
     {
         if(agent.tag == "Blue Team")
         {
@@ -37,7 +37,7 @@ public class MoveToAllyBase : AIAction
         return true;
     }
 
-    public override bool isDone(GameObject agent)
+    public override bool isDone()
     {
         return false;
     }

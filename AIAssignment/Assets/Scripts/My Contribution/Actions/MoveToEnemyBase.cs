@@ -21,7 +21,7 @@ public class MoveToEnemyBase : AIAction
         action.effects.Add(new KeyValuePair<string, bool>("AnyAgentHaveEnemyFlag", true));
     }
 
-    public override void PlayAction(GameObject agent)
+    public override void PlayAction()
     {
         if (agent.tag == "Blue Team")
         {
@@ -39,7 +39,7 @@ public class MoveToEnemyBase : AIAction
         return true;
     }
 
-    public override bool isDone(GameObject agent)
+    public override bool isDone()
     {
         if (agent.tag == "Blue Team")
         {

@@ -13,6 +13,7 @@ public class AIAction {
         public List<KeyValuePair<string, bool>> effects;
     };
 
+    public GameObject agent;
     public Action action;
 
     public virtual void MakeAction()
@@ -20,7 +21,7 @@ public class AIAction {
 
     }
 
-    public virtual void PlayAction(GameObject agent)
+    public virtual void PlayAction()
     {
 
     }
@@ -30,7 +31,7 @@ public class AIAction {
         return false;
     }
 
-    virtual public bool isDone(GameObject agent)
+    virtual public bool isDone()
     {
         return false;
     }
@@ -38,6 +39,11 @@ public class AIAction {
     virtual public void UpdateState()
     {
 
+    }
+
+    virtual public void WhichAgent(GameObject setAgent) //This is the agent doing the action
+    {
+        agent = setAgent;
     }
 
 

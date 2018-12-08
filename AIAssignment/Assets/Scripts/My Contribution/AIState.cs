@@ -25,9 +25,6 @@ public class AIState: MonoBehaviour
         state.Add(new KeyValuePair<string, bool>("Agent1HasEnemyFlag", false));
         state.Add(new KeyValuePair<string, bool>("Agent2HasEnemyFlag", false));
         state.Add(new KeyValuePair<string, bool>("Agent3HasEnemyFlag", false));
-        state.Add(new KeyValuePair<string, bool>("AnyAgentControlLeftPlanned", false));
-        state.Add(new KeyValuePair<string, bool>("AnyAgentControlRightPlanned", false));
-        state.Add(new KeyValuePair<string, bool>("AnyAgentControlMiddlePlanned", false));
 
         state.Add(new KeyValuePair<string, bool>("Agent1ControlLeft", false));
         state.Add(new KeyValuePair<string, bool>("Agent2ControlLeft", false));

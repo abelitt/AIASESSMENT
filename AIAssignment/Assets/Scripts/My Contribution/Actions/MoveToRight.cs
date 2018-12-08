@@ -19,7 +19,7 @@ public class MoveToRight : AIAction
         action.effects.Add(new KeyValuePair<string, bool>("AnyAgentControlRight", true));
     }
 
-    public override void PlayAction(GameObject agent)
+    public override void PlayAction()
     {
         agent.GetComponent<AgentActions>().MoveTo(GameObject.Find("HealthKitSpawner"));
     }
@@ -29,7 +29,7 @@ public class MoveToRight : AIAction
         return true;
     }
 
-    public override bool isDone(GameObject agent)
+    public override bool isDone()
     {
         if (GameObject.Find("HealthKitSpawner").transform.position.x == agent.transform.position.x && GameObject.Find("HealthKitSpawner").transform.position.z == agent.transform.position.z)
         {
