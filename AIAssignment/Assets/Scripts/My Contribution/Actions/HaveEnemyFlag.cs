@@ -5,20 +5,28 @@ using UnityEngine;
 public class HaveEnemyFlag : AIAction
 {
 
-    Action haveEnemyFlag;
     // Use this for initialization
     string enemyTeam;
 
     public override void MakeAction()
     {
+        action.preconditions = new List<KeyValuePair<string, bool>>();
+        action.effects = new List<KeyValuePair<string, bool>>();
+        action.actionName = "HaveEnemyFlag";
+        action.weight = 1;
+        action.amountOfPreConditionsNeeded = 1;
+        action.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlEnemyBase", true));
+        action.effects.Add(new KeyValuePair<string, bool>("AnyAgentHaveEnemyFlag", true));
 
+         
     }
 
     public override void PlayAction(GameObject agent)
     {
-        enemyTeam = WhichTeam(agent); 
+        enemyTeam = WhichTeam(agent);
+        GameObject gameObjectToPickUp = agent.GetComponent<Sensing>().GetObjectsInViewByTag("Flag")[0];
 
-        if(!agent.GetComponentInChildren<Sensing>().IsItemInReach(GameObject.Find(enemyTeam + " Flag")))
+        if(!agent.GetComponentInChildren<Sensing>().IsItemInReach(gameObjectToPickUp))
         {
             agent.GetComponent<AgentActions>().MoveTo(GameObject.Find(enemyTeam + " Flag"));
         }

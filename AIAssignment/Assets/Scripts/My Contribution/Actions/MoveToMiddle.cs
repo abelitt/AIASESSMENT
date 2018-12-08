@@ -5,14 +5,19 @@ using UnityEngine;
 public class MoveToMiddle : AIAction
 {
 
-    Action moveToMiddle;
     // Use this for initialization
     Vector3 blueMiddle = new Vector3(-11.5f, 0, 0.67f);
     Vector3 redMiddle = new Vector3(11.5f, 0, 0.21f);
 
     public override void MakeAction()
     {
-
+        action.preconditions = new List<KeyValuePair<string, bool>>();
+        action.effects = new List<KeyValuePair<string, bool>>();
+        action.actionName = "MoveToMiddle";
+        action.weight = 1;
+        action.amountOfPreConditionsNeeded = 1;
+        action.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlMiddle", false));
+        action.effects.Add(new KeyValuePair<string, bool>("AnyAgentControlMiddle", true));
     }
 
     public override void PlayAction(GameObject agent)

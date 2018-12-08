@@ -51,15 +51,14 @@ public class AIGoals: MonoBehaviour {
         anyAgentHaveFlag.effects.Add(new KeyValuePair<string, bool>("AnyAgentHaveFlag", true));
 
         Goal anyAgentControlEnemyBase = new Goal();
-        anyAgentControlEnemyBase.goalName = "AnyAgentControlLeft";
+        anyAgentControlEnemyBase.goalName = "AnyAgentControlEnemyBase";
         anyAgentControlEnemyBase.preconditions = new List<KeyValuePair<string, bool>>();
         anyAgentControlEnemyBase.effects = new List<KeyValuePair<string, bool>>();
         anyAgentControlEnemyBase.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlLeft", true));
         anyAgentControlEnemyBase.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlMiddle", true));
         anyAgentControlEnemyBase.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlRight", true));
-        anyAgentControlEnemyBase.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentPowerUp", true));
         anyAgentControlEnemyBase.amountOfPreConditionsNeeded = 2;
-        anyAgentControlEnemyBase.effects.Add(new KeyValuePair<string, bool>("AnyAgentHaveFlag", true));
+        anyAgentControlEnemyBase.effects.Add(new KeyValuePair<string, bool>("AnyAgentControlEnemyBase", true));
 
         Goal anyAgentControlLeft = new Goal();
         anyAgentControlLeft.preconditions = new List<KeyValuePair<string, bool>>();

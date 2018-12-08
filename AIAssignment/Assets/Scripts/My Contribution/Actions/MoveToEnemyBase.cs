@@ -5,13 +5,20 @@ using UnityEngine;
 public class MoveToEnemyBase : AIAction
 {
 
-    Action moveToEnemyBase;
     // Use this for initialization
 
 
     public override void MakeAction()
     {
-
+        action.preconditions = new List<KeyValuePair<string, bool>>();
+        action.effects = new List<KeyValuePair<string, bool>>();
+        action.actionName = "MoveToEnemyBase";
+        action.weight = 1;
+        action.amountOfPreConditionsNeeded = 2;
+        action.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlLeft", true));
+        action.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlRight", true));
+        action.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlMiddle", true));
+        action.effects.Add(new KeyValuePair<string, bool>("AnyAgentHaveEnemyFlag", true));
     }
 
     public override void PlayAction(GameObject agent)

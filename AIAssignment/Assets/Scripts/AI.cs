@@ -83,6 +83,9 @@ public class AI : MonoBehaviour
     // e.g. agentScript.MoveTo(enemy);
     private AgentActions _agentActions;
 
+    public bool aiBusy = false;
+
+    public string currentTask = null;
 
     // Use this for initialization
     void Start ()
@@ -101,4 +104,5 @@ public class AI : MonoBehaviour
         // Run your AI code in here
     }
  
+    
 }

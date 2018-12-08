@@ -3,26 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AIController : MonoBehaviour {
-    public GameObject TeamMember1;
-    public GameObject TeamMember2;
-    public GameObject TeamMember3;
-    public AgentData AgentDataTeamMember1;
-    public AgentData AgentDataTeamMember2;
-    public AgentData AgentDataTeamMember3;
-    public AgentActions AgentActionsTeamMember1;
-    public AgentActions AgentActionsTeamMember2;
-    public AgentActions AgentActionsTeamMember3;
-    public Sensing AgentSensingTeamMember1;
-    public Sensing AgentSensingTeamMember2;
-    public Sensing AgentSensingTeamMember3;
+    public List<GameObject> teamMembers = new List<GameObject>();
+
+    public List<AgentData> agentData = new List<AgentData>();
+  
+
+    public List<Sensing> agentSensing = new List<Sensing>();
+
 
     public List<KeyValuePair<AIGoals.Goal, bool>> goals;
     public List<KeyValuePair<string, bool>> states;
 
-    //Debug
-    public AIAction thing = new MoveToLeft();
-    
-    
+    public List<AIAction> actions = new List<AIAction>();
+
+    private int allMembersBusy = -1000;
+    private int chosenTeamMember = 0;
+
     // Use this for initialization
     void Start () {
         
@@ -33,19 +29,29 @@ public class AIController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        FindGameObject();
-        for(int i = 0; i < goals.Count; i++)
+        if(teamMembers == null) //Aka, if we haven't found the game objects yet, since we can't find it through the start function.
         {
-           
-                if (IsValid(goals[i]))
-                {
-                    thing.PlayAction(TeamMember1);
-                }
-
-            
-
+            FindGameObject();
+            AddActions();
         }
-        
+
+        for(int i = 0; i < goals.Count; i++) //Go Through the Goals
+        {
+            if (IsValid(goals[i]))
+            {
+                chosenTeamMember = ChooseTeamMember();
+                if(chosenTeamMember != allMembersBusy)
+                {
+                    //Make a plan to make AI "chosenTeamMember" achive goals[i]
+                    List<AIAction> foo = new List<AIAction>(GetComponent<AIPlanner>().GeneratePlan(teamMembers[0], goals[i]));
+                    foo[0].PlayAction(teamMembers[0]);
+                }
+                else
+                {
+                    //All teamMembers busy, make a default 
+                }
+            }
+        } 
 
     }
      
@@ -55,24 +61,45 @@ public class AIController : MonoBehaviour {
     {
         if (gameObject.tag == "Blue Team")
         {
-            TeamMember1 = GameObject.Find("Blue Team Member 1");
-            TeamMember2 = GameObject.Find("Blue Team Member 2");
-            TeamMember3 = GameObject.Find("Blue Team Member 3");
-            AgentActionsTeamMember1 = TeamMember1.GetComponent<AgentActions>();
-            AgentActionsTeamMember2 = TeamMember2.GetComponent<AgentActions>();
-            AgentActionsTeamMember3 = TeamMember3.GetComponent<AgentActions>();
-            AgentDataTeamMember1 = TeamMember1.GetComponent<AgentData>();
-            AgentDataTeamMember2 = TeamMember2.GetComponent<AgentData>();
-            AgentDataTeamMember3 = TeamMember3.GetComponent<AgentData>();
-            AgentSensingTeamMember1 = TeamMember1.GetComponentInChildren<Sensing>();
-            AgentSensingTeamMember2 = TeamMember2.GetComponentInChildren<Sensing>();
-            AgentSensingTeamMember3 = TeamMember3.GetComponentInChildren<Sensing>();
+            teamMembers.Add(GameObject.Find("Blue Team Member 1"));
+            teamMembers.Add(GameObject.Find("Blue Team Member 2"));
+            teamMembers.Add(GameObject.Find("Blue Team Member 3"));
+
+            for (int i = 0; i < teamMembers.Count; i++)
+            {
+                agentData.Add(teamMembers[i].GetComponent<AgentData>());
+                agentSensing.Add(teamMembers[i].GetComponentInChildren<Sensing>());
+
+            }
         }
+    }
+
+    void AddActions()
+    {
+        actions.Add(new MoveToAllyBase());
+        actions.Add(new MoveToEnemyBase());
+        actions.Add(new MoveToLeft());
+        actions.Add(new MoveToRight());
+        actions.Add(new MoveToMiddle());
+        actions.Add(new HaveEnemyFlag());
+
+    }
+
+    int ChooseTeamMember()
+    {
+        for(int i = 0; i < teamMembers.Count; i++)
+        {
+            if(teamMembers[i].GetComponent<AI>().aiBusy == false)
+            {
+                return i;
+            }
+        }
+        return allMembersBusy;
     }
 
     bool IsValid(KeyValuePair<AIGoals.Goal, bool> goal)
     {
-        int AmountOfPreConditionsMet = 0;
+        int amountOfPreConditionsMet = 0;
 
         for (int j = 0; j < states.Count; j++) //Go through states
         {
@@ -82,13 +109,13 @@ public class AIController : MonoBehaviour {
                 {
                     if (goal.Key.preconditions[a].Value == states[j].Value) //If so, is the preconditions value (the boolean) the same
                     {
-                        AmountOfPreConditionsMet += 1; //If so, add it to the counter 
+                        amountOfPreConditionsMet += 1; //If so, add it to the counter 
                     }
                 }
 
             }
 
-            if (AmountOfPreConditionsMet >= goal.Key.amountOfPreConditionsNeeded) //If we have met enough of the preconditions then we are good to go with the goal. 
+            if (amountOfPreConditionsMet >= goal.Key.amountOfPreConditionsNeeded) //If we have met enough of the preconditions then we are good to go with the goal. 
             {
                 return true;
             }

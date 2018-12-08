@@ -5,13 +5,18 @@ using UnityEngine;
 public class MoveToAllyBase : AIAction
 {
     
-    Action moveToAllyBase;
     // Use this for initialization
 
 
     public override void MakeAction()
     {
-
+        action.preconditions = new List<KeyValuePair<string, bool>>();
+        action.effects = new List<KeyValuePair<string, bool>>();
+        action.actionName = "MoveToAllyBase";
+        action.weight = 1;
+        action.amountOfPreConditionsNeeded = 1;
+        action.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentHaveEnemyFlag", true));
+        action.effects.Add(new KeyValuePair<string, bool>("AnyAgentControlAllyBase", true));
     }
 
     public override void PlayAction(GameObject agent)

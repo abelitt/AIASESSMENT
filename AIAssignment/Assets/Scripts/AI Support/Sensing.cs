@@ -63,6 +63,7 @@ public class Sensing : MonoBehaviour
                 // Ensure we are not looking through a wall
                 if (!Physics.Raycast(transform.position, _overlapResults[i].gameObject.transform.position - transform.position, objectDistance, WallsLayer))
                 {
+                    Debug.DrawRay(transform.position, _overlapResults[i].gameObject.transform.position - transform.position);
                     // We can see it
                     _objectsInView.Add(_overlapResults[i].gameObject);
                 }

@@ -6,14 +6,14 @@ public class AIAction {
 
     public struct Action
     {
-        public string ActionName;
-        public int weight; 
+        public string actionName;
+        public int weight;
         public List<KeyValuePair<string, bool>> preconditions;
         public int amountOfPreConditionsNeeded;
         public List<KeyValuePair<string, bool>> effects;
     };
 
-   
+    public Action action;
 
     public virtual void MakeAction()
     {
