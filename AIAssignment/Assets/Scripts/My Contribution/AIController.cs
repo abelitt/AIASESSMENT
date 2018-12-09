@@ -17,6 +17,7 @@ public class AIController : MonoBehaviour {
     public List<List<AIAction>> plan = new List<List<AIAction>>();
     private int allMembersBusy = -1000;
     private int chosenTeamMember = 0;
+    private static int CURRENT_ACTION = 0;
     
     // Use this for initialization
     void Start () {
@@ -45,6 +46,13 @@ public class AIController : MonoBehaviour {
                 }
                 else //If all team members are currently busy 
                 {
+                    for(int q = 0; q < plan.Count; q++)
+                    {
+                        if(plan[q][CURRENT_ACTION].isDone())
+                        {
+                            Debug.Log(plan[q][CURRENT_ACTION].action.actionName + "ISDONE");
+                        }
+                    }
                     //Check all the current actions in the plan
                     //if the action is finished, remove action from the plan and move to next action
                     //change state to action effects
@@ -56,7 +64,7 @@ public class AIController : MonoBehaviour {
                 {
                     for (int k = 0; k < plan.Count; k++) //go through all the plans
                     {
-                        plan[k][0].PlayAction(); //Play the first action of each plan. Once this action is complete it will be removed so they can play the next plan
+                        plan[k][CURRENT_ACTION].PlayAction(); //Play the first action of each plan. Once this action is complete it will be removed so they can play the next plan
                     }
                 }
               
