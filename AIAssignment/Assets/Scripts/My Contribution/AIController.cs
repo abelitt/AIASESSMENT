@@ -3,35 +3,53 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AIController : MonoBehaviour {
-    public List<GameObject> teamMembers = new List<GameObject>();
+    private List<GameObject> teamMembers = new List<GameObject>();
 
-    public List<AgentData> agentData = new List<AgentData>();
+    private List<AgentData> agentData = new List<AgentData>();
   
 
-    public List<Sensing> agentSensing = new List<Sensing>();
+    private List<Sensing> agentSensing = new List<Sensing>();
 
 
-    public List<KeyValuePair<AIGoals.Goal, bool>> goals;
-    public List<KeyValuePair<string, bool>> states;
+    private List<KeyValuePair<AIGoals.Goal, bool>> goals;
+    private List<KeyValuePair<string, bool>> states;
+    private AIPlanner planner;
+    private AIGoals goalMaker;
+    private AIState stateMaker;
+    private List<List<AIAction>> plan = new List<List<AIAction>>();
 
-    public List<List<AIAction>> plan = new List<List<AIAction>>();
     private int allMembersBusy = -1000;
     private int chosenTeamMember = 0;
     private static int CURRENT_ACTION = 0;
+    private static int AMOUNT_OF_TEAM_MEMBERS = 3; 
     
     // Use this for initialization
     void Start () {
-        
-        goals = GetComponent<AIGoals>().goals;
-        states = GetComponent<AIState>().state;
+        AIGoals goalMaker = new AIGoals();
+        goalMaker.CreateGoals();
+        goals = goalMaker.GetGoals();
+        goalMaker = null;
+
+        stateMaker = new AIState();
+        stateMaker.MakeStates();
+        states = stateMaker.state;
+        stateMaker = null;
 	}
 
     // Update is called once per frame
     void Update()
     {
-        if(teamMembers.Count < 3) //Aka, if we haven't found the game objects yet, since we can't find it through the start function.
+        if (teamMembers.Count < 3) //At the start this will call so that we can find the game objects
         {
             FindGameObject();
+        }
+
+        for (int i = 0; i < teamMembers.Count; i++) //Checks If any AI is Dead
+        {
+            if(teamMembers[i] == null) //If any AI is dead
+            {
+                FindGameObject();
+            }
         }
 
         for(int i = 0; i < goals.Count; i++) //Go Through the Goals
@@ -41,18 +59,34 @@ public class AIController : MonoBehaviour {
                 chosenTeamMember = ChooseTeamMember(); //choose a team memeber
                 if (chosenTeamMember != allMembersBusy) //If there isn't a team member that isn't busy
                 {
+                    planner = new AIPlanner(); //Make a new plan
                     teamMembers[chosenTeamMember].GetComponent<AI>().aiBusy = true; //Set the team member to busy
-                    plan.Add(new List<AIAction>(GetComponent<AIPlanner>().GeneratePlan(teamMembers[chosenTeamMember], goals[i]))); //Generate a plan for the AI to do 
+                    plan.Add(new List<AIAction>(planner.GeneratePlan(teamMembers[chosenTeamMember], goals[i]))); //Generate a plan for the AI to do 
+                    
+                    planner = null; // removes the plan so that we can make new plans
                 }
                 else //If all team members are currently busy 
                 {
-                    for(int q = 0; q < plan.Count; q++)
+                    for(int q = 0; q < plan.Count; q++) //Go through the different plans currently made
                     {
-                        if(plan[q][CURRENT_ACTION].isDone())
+                        if(plan[q][CURRENT_ACTION].isDone()) //is the current action of that plan done
                         {
-                            Debug.Log(plan[q][CURRENT_ACTION].action.actionName + "ISDONE");
+                            Debug.Log(plan[q][CURRENT_ACTION].action.actionName + " IS DONE"); //The plan is done, now change the values and stuff
+                            plan[q][CURRENT_ACTION].UpdateState(states); //Update the state
+                            if (plan[q].Count == 1) //If this is the final step to the plan
+                            {
+                                plan[q][CURRENT_ACTION].agent.GetComponent<AI>().aiBusy = false; //Set the AI to no longer busy
+                                plan.RemoveAt(q); //remove the plan so that since we don't need to update it again
+                                //q -= 1; //Since everything on the list will now go down one, this allows the code to still run the other plans
+                            }
+                           else
+                            {
+                                plan[q].RemoveAt(CURRENT_ACTION); //remove that action from the plan, now the next CURRENT_ACTION will be played. 
+                            } 
                         }
                     }
+
+
                     //Check all the current actions in the plan
                     //if the action is finished, remove action from the plan and move to next action
                     //change state to action effects
@@ -77,19 +111,26 @@ public class AIController : MonoBehaviour {
 
     void FindGameObject()
     {
+        teamMembers.Clear();
+        string whichTeam;
         if (gameObject.tag == "Blue Team")
         {
-            teamMembers.Add(GameObject.Find("Blue Team Member 1"));
-            teamMembers.Add(GameObject.Find("Blue Team Member 2"));
-            teamMembers.Add(GameObject.Find("Blue Team Member 3"));
-
-            for (int i = 0; i < teamMembers.Count; i++)
+            whichTeam = "Blue";
+        }
+        else
+        {
+            whichTeam = "Red";
+        }
+      
+       for(int i = 0; i < AMOUNT_OF_TEAM_MEMBERS; i++)
+        {
+            teamMembers.Add(GameObject.Find(whichTeam + " Team Member " + (i+1).ToString()));
+            if(teamMembers[i] == null)
             {
-                agentData.Add(teamMembers[i].GetComponent<AgentData>());
-                agentSensing.Add(teamMembers[i].GetComponentInChildren<Sensing>());
-
+                teamMembers.RemoveAt(i);
             }
         }
+        
     }
 
     int ChooseTeamMember()

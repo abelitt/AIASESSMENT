@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIGoals: MonoBehaviour {
+public class AIGoals {
 
     public struct Goal
     {
@@ -12,18 +12,19 @@ public class AIGoals: MonoBehaviour {
         public List<KeyValuePair<string, bool>> effects;
     };
 
-    public List<KeyValuePair<Goal, bool>> goals; 
-	void Start () {
-
-        CreateGoals();
-    }
+    private List<KeyValuePair<Goal, bool>> goals; 
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    public List<KeyValuePair<Goal, bool>> GetGoals()
+    {
+        return goals;
+    }
        
-    void CreateGoals()
+    public void CreateGoals()
     {
         Goal enemyFlagInBase = new Goal();
         enemyFlagInBase.goalName = "EnemyFlagInBase";

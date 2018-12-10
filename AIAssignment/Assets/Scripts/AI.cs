@@ -84,6 +84,7 @@ public class AI : MonoBehaviour
     private AgentActions _agentActions;
 
     public bool aiBusy = false;
+    public string aiName; 
 
     public string currentTask = null;
 

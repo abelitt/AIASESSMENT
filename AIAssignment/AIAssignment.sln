@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2017
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIAssignment", "AIAssignment.csproj", "{8053A39A-D8CE-8352-EB6D-8751427CDCC9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIAssignment.Plugins", "AIAssignment.Plugins.csproj", "{30F04877-9E78-D4D3-2C32-45EA4B3AADEB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIAssignment.Editor.Plugins", "AIAssignment.Editor.Plugins.csproj", "{3B65C1C0-A2B4-56AC-B599-C2897BDF7017}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIAssignment.Editor", "AIAssignment.Editor.csproj", "{A6BE24C7-686A-5FED-31D7-A1756BF3454D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIAssignment.Editor", "AIAssignment.Editor.csproj", "{A6BE24C7-686A-5FED-31D7-A1756BF3454D}"
 EndProject
@@ -33,11 +33,12 @@ Global
 		{A6BE24C7-686A-5FED-31D7-A1756BF3454D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6BE24C7-686A-5FED-31D7-A1756BF3454D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6BE24C7-686A-5FED-31D7-A1756BF3454D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6BE24C7-686A-5FED-31D7-A1756BF3454D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6BE24C7-686A-5FED-31D7-A1756BF3454D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6BE24C7-686A-5FED-31D7-A1756BF3454D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6BE24C7-686A-5FED-31D7-A1756BF3454D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {29D2B6AA-CB19-432E-B911-C99CAA331961}
 	EndGlobalSection
 EndGlobal

@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIState: MonoBehaviour
-{
+public class AIState {
     // Use this for initialization
     public List<KeyValuePair<string, bool>> state = new List<KeyValuePair<string, bool>>();
 
-
-    void Start()
+    public void MakeStates()
     {
         state.Add(new KeyValuePair<string, bool>("EnemyFlagInBase", false));
         state.Add(new KeyValuePair<string, bool>("AllyFlagInBase", true));
@@ -47,11 +45,7 @@ public class AIState: MonoBehaviour
         state.Add(new KeyValuePair<string, bool>("Agent1HealthLow", false));
         state.Add(new KeyValuePair<string, bool>("Agent2HealthLow", false));
         state.Add(new KeyValuePair<string, bool>("Agent3HealthLow", false));
-
-
-
     }
-
 
     // Update is called once per frame
     void Update()
