@@ -84,8 +84,15 @@ public class AIController : MonoBehaviour {
                                 plan[q].RemoveAt(CURRENT_ACTION); //remove that action from the plan, now the next CURRENT_ACTION will be played. 
                             } 
                         }
-                    }
+                        /*
+                         * //Crashes with this, no idea what to do
+                        planner = new AIPlanner();
+                        planner.ChangeOfPlan(plan[q], plan[q][CURRENT_ACTION].agent);
+                        planner = null;
+                        */
 
+                    }
+                   
 
                     //Check all the current actions in the plan
                     //if the action is finished, remove action from the plan and move to next action
