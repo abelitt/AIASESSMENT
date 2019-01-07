@@ -24,15 +24,18 @@ public class HaveEnemyFlag : AIAction
     public override void PlayAction()
     {
         enemyTeam = WhichTeam(agent);
-        GameObject gameObjectToPickUp = agent.GetComponent<Sensing>().GetObjectsInViewByTag("Flag")[0];
-
-        if(!agent.GetComponentInChildren<Sensing>().IsItemInReach(gameObjectToPickUp))
+        if(!secondaryGameObject)
         {
-            agent.GetComponent<AgentActions>().MoveTo(GameObject.Find(enemyTeam + " Flag"));
+            secondaryGameObject = GameObject.Find(enemyTeam + " Flag");
+        }
+
+        if(!agent.GetComponentInChildren<Sensing>().IsItemInReach(secondaryGameObject))
+        {
+            agent.GetComponent<AgentActions>().MoveTo(secondaryGameObject);
         }
         else
         {
-            agent.GetComponent<AgentActions>().CollectItem(GameObject.Find(enemyTeam + " Flag"));
+            agent.GetComponent<AgentActions>().CollectItem(secondaryGameObject);
         }
         
       
@@ -47,15 +50,13 @@ public class HaveEnemyFlag : AIAction
     public override bool isDone()
     {
         enemyTeam = WhichTeam(agent);
-
-        if (GameObject.Find(enemyTeam + " Flag").transform.position.x == agent.transform.position.x && GameObject.Find(enemyTeam + " Flag").transform.position.z == agent.transform.position.z)
+        InventoryController foo = agent.GetComponentInChildren<InventoryController>();
+        if (foo.GetItem(enemyTeam + " Flag"))
         {
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
+
     }
 
     public string WhichTeam(GameObject agent)

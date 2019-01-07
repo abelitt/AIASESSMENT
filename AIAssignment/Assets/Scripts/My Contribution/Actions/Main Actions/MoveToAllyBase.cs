@@ -43,6 +43,10 @@ public class MoveToAllyBase : AIAction
         {
             if (Vector3.Distance(GameObject.Find("Blue Base").transform.position, agent.transform.position) < 2)
             {
+                if (agent.GetComponentInChildren<InventoryController>().HasItem("Red Flag"))
+                {
+                    agent.GetComponentInChildren<AgentActions>().DropItem(GameObject.Find("Red Flag"));
+                }
                 return true;
             }
             else
@@ -54,6 +58,10 @@ public class MoveToAllyBase : AIAction
         {
             if (Vector3.Distance(GameObject.Find("Red Base").transform.position, agent.transform.position) < 2)
             {
+                if (agent.GetComponentInChildren<InventoryController>().HasItem("Blue Flag"))
+                {
+                    agent.GetComponentInChildren<AgentActions>().DropItem(GameObject.Find("Blue Flag"));
+                }
                 return true;
             }
             else
@@ -63,4 +71,6 @@ public class MoveToAllyBase : AIAction
         }
         
     }
+
+ 
 }

@@ -30,7 +30,7 @@ public class AIPlanner {
     public List<AIAction> GeneratePlan(GameObject agent, KeyValuePair<AIGoals.Goal, bool> goal)
     {
         AddMainActions();
-
+        int amountOfPreConidtionsComplete = 0;
         List<KeyValuePair<string, bool>> goalPreconditions = new List<KeyValuePair<string, bool>>(goal.Key.preconditions);
 
         List<AIAction> actionsToConsider = new List<AIAction>();
@@ -38,7 +38,7 @@ public class AIPlanner {
         for (int i = 0; i < actions.Count; i++) //Go Through all Actions
         {
             Debug.Log(goal.Key.goalName);
-            int amountOfPreConidtionsComplete = 0;
+            
             for (int k = 0; k < goalPreconditions.Count; k++) // go through the goals preconditions
             {
                 for(int p = 0; p < actions[i].action.preconditions.Count; p++) //check the actions preconditions
@@ -50,11 +50,11 @@ public class AIPlanner {
                             amountOfPreConidtionsComplete += 1; //Add to the amount of preconditions needed to complete this 
                         }  
                     }
-                    if (amountOfPreConidtionsComplete == goal.Key.amountOfPreConditionsNeeded)
+                    if (amountOfPreConidtionsComplete == goal.Key.amountOfPreConditionsNeeded) //If it means the goals and actions preconditions
                     {
-                        actions[i].WhichAgent(agent);
-                        actionsToConsider.Add(actions[i]);
-                        return actionsToConsider;
+                        actions[i].WhichAgent(agent); //Set who is using this action
+                        actionsToConsider.Add(actions[i]); 
+                        return actionsToConsider; //This was added here as a result of acknowledging that this planner will only allow 1 action through
                     }
                 }
                
@@ -62,17 +62,18 @@ public class AIPlanner {
 
         }
 
-        if(actionsToConsider.Count == 1)
+        /*
+        if (actionsToConsider.Count == 1) //If there is only 1 aciton in plan 
         {
             return actionsToConsider;
         }
-        else
+        else //More than 1 thing to consider
         {
-            //Sort the ideas
+            //Sort the ideas with A* 
         }
-
-        //goal.Key.effects;
-        return actions; //The default for now 
+        */
+        return actionsToConsider; //The default for now 
+        
     }
 
     public List<AIAction> ChangeOfPlan(List<AIAction> plan, GameObject agent)
@@ -80,7 +81,7 @@ public class AIPlanner {
         objectsAgentSee = agent.GetComponentInChildren<Sensing>().GetObjectsInViewByTag("Collectable");
         if(objectsAgentSee.Count > 0)
         {
-            //AddAction to pick up object
+            //AddAction to pick up object 
         }
 
         if(agent.tag == "Blue Team")
@@ -92,11 +93,11 @@ public class AIPlanner {
             objectsAgentSee = agent.GetComponentInChildren<Sensing>().GetObjectsInViewByTag("Blue Team");
         }
 
-        if (objectsAgentSee.Count > 0)
+        if (objectsAgentSee.Count > 0) //if this agent can see somone
         {
-            for (int i = 0; i < objectsAgentSee.Count; i++)
+            for (int i = 0; i < objectsAgentSee.Count; i++) 
             {
-                plan.Insert(0, new Attack());
+                plan.Insert(0, new Attack()); //attack this AI
                 plan[0].WhichAgent(agent);
                 plan[0].SetSecondaryGameObject(objectsAgentSee[i]);
             }

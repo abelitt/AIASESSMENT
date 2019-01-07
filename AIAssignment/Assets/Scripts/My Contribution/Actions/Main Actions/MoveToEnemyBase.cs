@@ -18,7 +18,7 @@ public class MoveToEnemyBase : AIAction
         action.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlLeft", true));
         action.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlRight", true));
         action.preconditions.Add(new KeyValuePair<string, bool>("AnyAgentControlMiddle", true));
-        action.effects.Add(new KeyValuePair<string, bool>("AnyAgentHaveEnemyFlag", true));
+        action.effects.Add(new KeyValuePair<string, bool>("AnyAgentControlEnemyBase", true));
     }
 
     public override void PlayAction()

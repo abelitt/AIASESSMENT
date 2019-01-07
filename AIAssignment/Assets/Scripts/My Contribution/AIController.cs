@@ -54,7 +54,7 @@ public class AIController : MonoBehaviour {
 
         for(int i = 0; i < goals.Count; i++) //Go Through the Goals
         {
-            if (IsValid(goals[i])) //Check if the Goal is worth going for 
+            if (CheckGoalIsDesired(goals[i])) //Check if the Goal is worth going for 
             {
                 chosenTeamMember = ChooseTeamMember(); //choose a team memeber
                 if (chosenTeamMember != allMembersBusy) //If there isn't a team member that isn't busy
@@ -77,15 +77,15 @@ public class AIController : MonoBehaviour {
                             {
                                 plan[q][CURRENT_ACTION].agent.GetComponent<AI>().aiBusy = false; //Set the AI to no longer busy
                                 plan.RemoveAt(q); //remove the plan so that since we don't need to update it again
-                                //q -= 1; //Since everything on the list will now go down one, this allows the code to still run the other plans
                             }
                            else
                             {
                                 plan[q].RemoveAt(CURRENT_ACTION); //remove that action from the plan, now the next CURRENT_ACTION will be played. 
                             } 
                         }
+                        
+                        //Crashes with this, no idea what to do
                         /*
-                         * //Crashes with this, no idea what to do
                         planner = new AIPlanner();
                         planner.ChangeOfPlan(plan[q], plan[q][CURRENT_ACTION].agent);
                         planner = null;
@@ -152,7 +152,7 @@ public class AIController : MonoBehaviour {
         return allMembersBusy;
     }
 
-    bool IsValid(KeyValuePair<AIGoals.Goal, bool> goal)
+    bool CheckGoalIsDesired(KeyValuePair<AIGoals.Goal, bool> goal)
     {
         int amountOfPreConditionsMet = 0;
 
